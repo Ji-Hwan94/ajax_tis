@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajax - jsonp</title>
+    <script src="js/jQuery.js"></script>
+    <script>
+        $(function(){
+            // 교차 도메인으로 데이터 불러오는 방법.
+            var href = "http://pjs.dothome.co.kr/member.php?callback=myFuc";
+            $.ajax({
+                url: href,
+                dataType: "jsonp"
+            }).done(function myFuc(data){
+                console.log(data);
+
+                //data를 파싱해서 화면에 출력
+                if(data.length>0){
+                    var $ul = $("<ul/>") // ul 태그를 만든다.
+                    $.each(data, function(i, o){
+                        var $li = $("<li/>"); // li 태그를 만든다.
+                        $li.append(o.id); // li 태그에 id 추가
+                        $li.append(", "); 
+                        $li.append(o.name); // li 태그에 name 추가
+                        $li.append(", ");   
+                        $li.append(o.email); // li 태그에 email 추가
+                        $li.append(", ");
+
+                        $ul.append($li); // ul 태그에 li태그 추가      
+                    });
+                    $(".wrap").append($ul); // class가 warp인 div 태그에 ul 태그 추가   
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="wrap"></div>
+</body>
+</html>
